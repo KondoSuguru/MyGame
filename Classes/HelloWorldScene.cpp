@@ -117,22 +117,28 @@ bool HelloWorld::init()
 	//}
 
 	//テクスチャファイルを指定してスプライトを作成
-	sprite = Sprite::create("nico.png");
+	sprite = Sprite::create("sample09.png");
 	//シーングラフにつなぐ
 	this->addChild(sprite);
 
-	sprite->setPosition(Vec2(1080, 620));
-	//sprite->setRotation(30.0f);
-	sprite->setScale(0.5f, 0.5f);
-	//sprite->setFlippedX(true);
-	//sprite->setFlippedY(true);
-	//sprite->setVisible(false);
-	//sprite->setColor(Color3B(0xff, 0x00, 0x00));
-	//sprite->setOpacity(0x80);
+	sprite->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+	//sprite->setScale(0.5f, 0.5f);
+
+	//sprite->setTextureRect(Rect());
+
+	/*sprite2 = Sprite::create("icon.png");
+	this->addChild(sprite2);
+	sprite2->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+	sprite2->setScale(0.5f, 0.5f);*/
 
 	this->scheduleUpdate();
 
 	move = 0;
+	//sprite->setAnchorPoint(Vec2(0.0f, 1.0f));
+
+	opa = 1;
+
+	leftMove = true;
 
 	return true;
 }
@@ -153,42 +159,32 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
 void HelloWorld::update(float delta)
 {
-	Vec2 pos = sprite->getPosition();
-	//pos += Vec2(-1.0f, 0.0f);
-	//sprite->setPosition(pos);
+	/*float angle = sprite->getRotation();
+	angle -= 1.0f;
+	sprite->setRotation(angle);*/
 
-	float opacity = sprite->getOpacity();
-	opacity -= 255.0f / 300.0f;
-	if (opacity <= 0.5f)
-		opacity = 255;
-	sprite->setOpacity(opacity);
+	/*opa--;
+	sprite->setOpacity(opa);
+	sprite2->setOpacity(1 - opa);*/
 
-	if (move == 0 && sprite->getPosition().x <= 200)
+	Vec2 mov = sprite->getPosition();
+	if (leftMove)
 	{
-		move = 1;
+		mov.x -= 1;
+		if (sprite->getPositionX() < 100) 
+		{
+			leftMove = false;
+			sprite->setFlippedX(true);
+		}
 	}
-	if (move == 1 && sprite->getPosition().y <= 200)
+	else
 	{
-		move = 2;
+		mov.x += 1;
+		if (sprite->getPositionX() > 1180)
+		{
+			leftMove = true;
+			sprite->setFlippedX(false);
+		}
 	}
-	if (move == 2 && sprite->getPosition().x >= 1080)
-	{
-		move = 3;
-	}
-	if (move == 3 && sprite->getPosition().y >= 620)
-	{
-		move = 0;
-	}
-
-	switch (move)
-	{
-	case 0:pos += Vec2(-2.0f, 0.0f);
-		break;
-	case 1:pos += Vec2(0.0f, -2.0f);
-		break;
-	case 2:pos += Vec2(2.0f, 0.0f);
-		break;
-	case 3:pos += Vec2(0.0f, 2.0f);
-	}
-	sprite->setPosition(pos);
+	sprite->setPosition(mov);
 }
