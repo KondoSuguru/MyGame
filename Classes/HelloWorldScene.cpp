@@ -136,18 +136,23 @@ bool HelloWorld::init()
 
 	srand(time(nullptr));
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 100; i++)
 	{
-		sprite[i] = Sprite::create("nico.png");
+		float initx,inity, mx, my;
+		initx = (float)rand() / RAND_MAX * 1280;
+		inity = (float)rand() / RAND_MAX * 720;
+		mx = (float)rand() / RAND_MAX * 1280;
+		my = (float)rand() / RAND_MAX * 720;
+
+		sprite[i] = Sprite::create("tsukasa.png");
 		this->addChild(sprite[i]);
-		sprite[i]->setPosition(Vec2(200*i, visibleSize.height / 2));
+		sprite[i]->setPosition(Vec2(initx, inity));
 		sprite[i]->setScale(0.2f, 0.2f);
 
-		float mx, my;
-		mx = (float)rand()/RAND_MAX * 500 -250; 
-		my = (float)rand()/RAND_MAX * 500 -250;
-		MoveBy* action1 = MoveBy::create(1.0f, Vec2(mx, my));
-		sprite[i]->runAction(action1);
+		
+		MoveTo* action1 = MoveTo::create(5.0f,Vec2(mx,my));
+		EaseInOut* action2 = EaseInOut::create(action1, 5.0f);
+		sprite[i]->runAction(action2);
 	}
 
 	this->scheduleUpdate();
