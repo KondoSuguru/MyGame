@@ -117,28 +117,40 @@ bool HelloWorld::init()
 	//}
 
 	//テクスチャファイルを指定してスプライトを作成
-	sprite = Sprite::create("sample09.png");
-	//シーングラフにつなぐ
-	this->addChild(sprite);
+	//sprite = Sprite::create("nico.png");
+	////シーングラフにつなぐ
+	//this->addChild(sprite);
+	//sprite->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+	//sprite->setScale(0.2f, 0.2f);
 
-	sprite->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
-	//sprite->setScale(0.5f, 0.5f);
+	//sprite2 = Sprite::create("icon.png");
+	//this->addChild(sprite2);
+	//sprite2->setPosition(Vec2(visibleSize.width / 2 - 200, visibleSize.height / 2));
+	//sprite2->setScale(0.1f, 0.1f);
 
-	//sprite->setTextureRect(Rect());
+	//MoveBy* action1 = MoveBy::create(1.0f, Vec2(300, 100));
+	//sprite->runAction(action1);
+	//sprite2->runAction(action1->clone());
+	/*MoveBy* action2 = MoveBy::create(1.0f, Vec2(100, 300));
+	sprite2->runAction(action2);*/
 
-	/*sprite2 = Sprite::create("icon.png");
-	this->addChild(sprite2);
-	sprite2->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
-	sprite2->setScale(0.5f, 0.5f);*/
+	srand(time(nullptr));
+
+	for (int i = 0; i < 5; i++)
+	{
+		sprite[i] = Sprite::create("nico.png");
+		this->addChild(sprite[i]);
+		sprite[i]->setPosition(Vec2(200*i, visibleSize.height / 2));
+		sprite[i]->setScale(0.2f, 0.2f);
+
+		float mx, my;
+		mx = (float)rand()/RAND_MAX * 500 -250; 
+		my = (float)rand()/RAND_MAX * 500 -250;
+		MoveBy* action1 = MoveBy::create(1.0f, Vec2(mx, my));
+		sprite[i]->runAction(action1);
+	}
 
 	this->scheduleUpdate();
-
-	move = 0;
-	//sprite->setAnchorPoint(Vec2(0.0f, 1.0f));
-
-	opa = 1;
-
-	leftMove = true;
 
 	return true;
 }
@@ -159,32 +171,5 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
 void HelloWorld::update(float delta)
 {
-	/*float angle = sprite->getRotation();
-	angle -= 1.0f;
-	sprite->setRotation(angle);*/
 
-	/*opa--;
-	sprite->setOpacity(opa);
-	sprite2->setOpacity(1 - opa);*/
-
-	Vec2 mov = sprite->getPosition();
-	if (leftMove)
-	{
-		mov.x -= 1;
-		if (sprite->getPositionX() < 100) 
-		{
-			leftMove = false;
-			sprite->setFlippedX(true);
-		}
-	}
-	else
-	{
-		mov.x += 1;
-		if (sprite->getPositionX() > 1180)
-		{
-			leftMove = true;
-			sprite->setFlippedX(false);
-		}
-	}
-	sprite->setPosition(mov);
 }

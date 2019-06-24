@@ -31,12 +31,9 @@ class HelloWorld : public cocos2d::Scene
 {
 public:
     static cocos2d::Scene* createScene();
-	cocos2d::Sprite* sprite;
-	cocos2d::Sprite* sprite2;
-	int move;
-	float opa;
-
-	bool leftMove;
+	/*cocos2d::Sprite* sprite;
+	cocos2d::Sprite* sprite2;*/
+	cocos2d::Sprite* sprite[100];
 
     virtual bool init();
     
